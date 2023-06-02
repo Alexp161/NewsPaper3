@@ -1,0 +1,12 @@
+<!-- news/templates/news/add_article.html -->
+
+{% extends "default.html" %}  <!-- основной шаблон -->
+
+{% block content %}
+    <h2>Add Article</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Article</button>
+    </form>
+{% endblock %}

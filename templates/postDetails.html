@@ -1,0 +1,94 @@
+{% extends 'default.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}
+  {{ post.title | censor }}
+{% endblock title %}
+
+{% block styles %}
+    <link href="{% static 'BootstrapPost/css/styles.css' %}" rel="stylesheet" />
+{% endblock styles %}
+
+{% block page_preview %}
+  <div class="text-center my-4">-->
+      <h1 class="display-6 fw-bold text-white mb-2">
+          {{ post.title | censor }}
+      </h1>
+      <p class="lead text-white-50 mb-4">
+          {{ post.preview | censor }}
+      </p>
+  </div>
+{% endblock page_preview %}
+
+
+{% block content %}
+<!-- Page content-->
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-lg-9">
+                    <!-- Post content-->
+                    <article>
+                        <!-- Post header-->
+                        <header class="mb-4">
+
+                            <!-- Post meta content-->
+                            <div class="text-muted fst-italic mb-2">Пост создан {{ post.datetime_create | date:'d M Y' }} в {{ post.datetime_create | date:'H:i' }} пользователем {{ post.author.user.username }}</div>
+                            <!-- Post categories-->
+                            {% for category in post.category.all %}
+                                <a class="badge bg-secondary text-decoration-none link-light" href="#!">{{ category.name }}</a>
+                            {% endfor %}
+
+                        </header>
+                        <!-- Post content-->
+                        <section class="mb-5">
+
+                            <p class="fs-5 mb-4" style="text-align: justify">{{ post.text | censor }}</p>
+
+                        </section>
+                    </article>
+                    <!-- Comments section-->
+                    {% if comments %}
+                    <section class="mb-5">
+                        <div class="card bg-light">
+                            <div class="card-body">
+
+                                    <!-- comment-->
+                                    {% for comment in comments %}
+                                        <div class="d-flex mb-3">
+                                            <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                                            <div class="ms-3">
+                                                <div class="fw-bold">{{ comment.user.username }}</div>
+                                                {{ comment.text | addSmile:5 | censor }}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+
+                            </div>
+                        </div>
+                    </section>
+                    {% endif %}
+                </div>
+                <!-- Side widgets-->
+                <div class="col-lg-3">
+                    <!-- Categories widget-->
+                    <div class="card mb-4">
+                        <div class="card-header">Категории</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <ul class="list-inline mb-0">
+
+                                        {% for category in categories %}
+                                            <li class="list-inline-item"><a href="#!">{{ category.name }}</a></li>
+                                        {% endfor %}
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock content %}

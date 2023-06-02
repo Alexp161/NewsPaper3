@@ -1,0 +1,9 @@
+<!-- news/templates/news/article_detail.html -->
+
+{% extends "default.html" %}  <!-- основной шаблон -->
+
+{% block content %}
+    <h2>{{ object.title }}</h2>
+    <p>{{ object.date|date:"d-m-Y H:i" }}</p>
+    <p>{{ object.content }}</p>
+{% endblock %}

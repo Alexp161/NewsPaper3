@@ -1,0 +1,49 @@
+{% extends 'default.html' %}
+{% load custom_filters %}
+
+{% block title %}
+  news app - главная
+{% endblock title %}
+
+
+{% block page_preview %}
+  <div class="text-center my-4">-->
+      <h1 class="display-6 fw-bold text-white mb-2">
+          Лучшие посты со всего рунета!
+      </h1>
+      <p class="lead text-white-50 mb-4"></p>
+  </div>
+{% endblock page_preview %}
+
+
+{% block content %}
+    <section class="py-5 border-bottom" id="features">
+        <div class="container px-5 my-5">
+            <div class="row gx-5">
+
+                {% if postList %}
+                    <div class="col-lg-12 mb-5">
+                        <h2 class="h4 fw-bolder text-center">{{ postList | postwordEnding }}:</h2>
+                    </div>
+                    {% for post in postList %}
+                        <div class="col-lg-4 mb-5">
+                            <h2 class="h4 fw-bolder">{{ post.title | censor }}</h2>
+                            <p>{{ post.text | truncatechars:50 | censor }}</p>
+<!--                        <p>{{ post.text | truncatechars:30 }}</p> обрезали текст фильтром (то же самое что в .preview) -->
+<!--                        <p>{{ post.text | truncatewords:7 }}</p> обрезали текст фильтром по словам -->
+                            <a class="text-decoration-none" href="{{ post.pk }}">
+                                Подробнее
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="col-lg-12 mb-5">
+                        <h2 class="h4 fw-bolder text-center">Постов нет =(</h2>
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </section>
+{% endblock content %}
