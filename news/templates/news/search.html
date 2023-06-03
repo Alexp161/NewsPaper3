@@ -1,0 +1,7 @@
+<form method="POST">
+    {% csrf_token %}
+    <input type="text" name="title" placeholder="Search by title">
+    <input type="text" name="author" placeholder="Search by author">
+    <input type="date" name="date" placeholder="Search by date">
+    <input type="submit" value="Search">
+</form>

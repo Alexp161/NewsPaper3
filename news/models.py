@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Sum
 from .filters import censor
+from django import forms
+from .models import Post, Comment
 
 
 class Category(models.Model):
@@ -88,3 +90,18 @@ class Article(models.Model):
         self.title = censor(self.title)
         self.content = censor(self.content)
         super().save(*args, **kwargs)
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['type', 'title', 'text', 'rating', 'author', 'category']
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['text', 'rating', 'post', 'user']
+
+class News(models.Model):
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
