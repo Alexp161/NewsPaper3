@@ -1,0 +1,13 @@
+<!-- news/templates/news/article_list.html -->
+
+{% extends "default.html" %}  <!-- основной шаблон -->
+
+{% block content %}
+    <h2>News</h2>
+    {% for article in object_list %}
+        <h3>{{ article.title }}</h3>
+        <p>{{ article.date }}</p>
+        <p>{{ article.content|truncatewords:50 }}</p>
+        <!-- truncatewords обрезает текст статьи до первых 50 слов -->
+    {% endfor %}
+{% endblock %}

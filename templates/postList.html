@@ -15,34 +15,42 @@
   </div>
 {% endblock page_preview %}
 
-
 {% block content %}
     <section class="py-5 border-bottom" id="features">
         <div class="container px-5 my-5">
             <div class="row gx-5">
-
-                {% if postList %}
+                {% if page_obj %}
                     <div class="col-lg-12 mb-5">
-                        <h2 class="h4 fw-bolder text-center">{{ postList | postwordEnding }}:</h2>
+                        <h2 class="h4 fw-bolder text-center">{{ page_obj | postwordEnding }}:</h2>
                     </div>
-                    {% for post in postList %}
+                    {% for post in page_obj %}
                         <div class="col-lg-4 mb-5">
                             <h2 class="h4 fw-bolder">{{ post.title | censor }}</h2>
                             <p>{{ post.text | truncatechars:50 | censor }}</p>
-<!--                        <p>{{ post.text | truncatechars:30 }}</p> обрезали текст фильтром (то же самое что в .preview) -->
-<!--                        <p>{{ post.text | truncatewords:7 }}</p> обрезали текст фильтром по словам -->
                             <a class="text-decoration-none" href="{{ post.pk }}">
                                 Подробнее
                                 <i class="bi bi-arrow-right"></i>
                             </a>
                         </div>
                     {% endfor %}
+                    <div class="col-lg-12 mb-5">
+                        {% if page_obj.has_previous %}
+                            <a href="?page=1">First</a>
+                            <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                        {% endif %}
+                        <span class="current">
+                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                        </span>
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                            <a href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                        {% endif %}
+                    </div>
                 {% else %}
                     <div class="col-lg-12 mb-5">
                         <h2 class="h4 fw-bolder text-center">Постов нет =(</h2>
                     </div>
                 {% endif %}
-
             </div>
         </div>
     </section>
