@@ -42,10 +42,32 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+
     'news',
     'accounts',
     'captcha'
 ]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': '986541238503-hijhi1v70fvp7ulajktpv7u0qkriigu3.apps.googleusercontent.com',
+            'secret': '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',
+            'key': ''
+        }
+    }
+}
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

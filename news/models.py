@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.db.models import Sum
 from .filters import censor
 from django import forms
+from django.contrib.auth.models import Group, Permission
+from django.contrib.contenttypes.models import ContentType
 from .models import Post, Comment
 
 
@@ -48,6 +50,9 @@ class PostCategory(models.Model):
 
     def __str__(self):
         return self.category.name
+
+
+
 
 
 class Comment(models.Model):
@@ -105,3 +110,33 @@ class News(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+Group.objects.get_or_create(name='common')
+Group.objects.get_or_create(name='authors')
+
+# Получим объекты типов содержимого (content types) для модели Post
+post_content_type = ContentType.objects.get_for_model(Post)
+
+# Получим необходимые разрешения
+create_permission = Permission.objects.get(
+    codename='add_post',
+    content_type=post_content_type,
+)
+edit_permission = Permission.objects.get(
+    codename='change_post',
+    content_type=post_content_type,
+)
+
+# Получим группу "authors"
+authors_group = Group.objects.get(name='authors')
+
+# Установим разрешения для группы "authors"
+authors_group.permissions.add(create_permission)
+authors_group.permissions.add(edit_permission)
+
+
+class Meta:
+    permissions = [
+        ('add_post', 'Can add post'),
+        ('change_post', 'Can change post'),
+    ]

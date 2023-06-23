@@ -10,6 +10,10 @@ class ArticleForm(forms.ModelForm):
         model = Article
         fields = ['title', 'date', 'content']
 
+class AuthorRequestForm(forms.Form):
+    username = forms.CharField(max_length=100)
+    email = forms.EmailField()
+
 class ContactForm(forms.Form):
     email = forms.EmailField(required=True)
     text = forms.CharField(widget=forms.Textarea, required=True)
