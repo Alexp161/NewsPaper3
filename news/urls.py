@@ -12,6 +12,10 @@ from .views import signup
 from . import views
 from django.urls import path
 from .views import author_request
+from django.urls import path
+from .views import unsubscribe
+from .views import ArticleUpdateView, ArticleDeleteView
+
 
 urlpatterns = [
     path('', ArticleListView.as_view(), name='article_list'),
@@ -25,4 +29,5 @@ urlpatterns = [
     path('article/<int:pk>/update/', ArticleUpdateView.as_view(), name='update_article'),
     path('article/<int:pk>/delete/', ArticleDeleteView.as_view(), name='delete_article'),
     path('login/', LoginView.as_view(template_name='login.html'), name='login'),
+    path('unsubscribe/', unsubscribe, name='unsubscribe'),
 ]

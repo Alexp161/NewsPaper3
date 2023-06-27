@@ -4,6 +4,7 @@ from django import forms
 from captcha.fields import CaptchaField
 from .models import Article
 from .models import News
+from .models import Category
 
 class ArticleForm(forms.ModelForm):
     class Meta:
@@ -18,6 +19,9 @@ class ContactForm(forms.Form):
     email = forms.EmailField(required=True)
     text = forms.CharField(widget=forms.Textarea, required=True)
     captcha = CaptchaField()
+
+class SubscriptionForm(forms.Form):
+    categories = forms.ModelMultipleChoiceField(queryset=Category.objects.all(), widget=forms.CheckboxSelectMultiple)
 
 class NewsForm(forms.ModelForm):
     class Meta:
