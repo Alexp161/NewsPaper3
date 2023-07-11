@@ -10,6 +10,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
+import logging
 
 
 class Category(models.Model):
@@ -141,6 +142,13 @@ authors_group, _ = Group.objects.get_or_create(name='authors')
 authors_group.permissions.add(create_permission)
 authors_group.permissions.add(edit_permission)
 
+logger = logging.getLogger(__name__)
+
+def some_function():
+    try:
+        x = 1 / 0
+    except Exception as e:
+        logger.error('An error occurred: %s', e)
 
 def send_article_notification(article):
     subscribers = article.category.subscribers.all()
